@@ -1,4 +1,4 @@
-# Sabrina Miller – Human Factors Engineer Portfolio
+# Sabrina Miller – Biomedical Engineer Portfolio
 
 This repository contains my personal portfolio website showcasing my background, skills, and projects in **Biomedical Engineering, Data Analysis, and Human Factors Design**.  
 The portfolio highlights my technical proficiency, research experience, and selected key projects.
@@ -50,6 +50,6 @@ The portfolio highlights my technical proficiency, research experience, and sele
 Clone the repository and open `index.html` in your browser:
 
 ```bash
-git clone git@github.com:SabrinaMillerSM/Portfolio_Apple_Human_Factors_Engineer.git
+git clone git@github.com:SabrinaMillerSM/Portfolio_projects.git
 cd Portfolio_Apple_Human_Factors_Engineer
 open index.html   # On macOS
