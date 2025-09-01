@@ -3,7 +3,7 @@
 This repository contains my personal portfolio website showcasing my background, skills, and projects in **Biomedical Engineering, Data Analysis, and Human Factors Design**.  
 The portfolio highlights my technical proficiency, research experience, and selected key projects.
 
-👉 **Live Demo:** [View Portfolio](https://sabrinamillersm.github.io/Portfolio_Apple_Human_Factors_Engineer/)
+👉 **Live Demo:** [View Portfolio](https://sabrinamillersm.github.io/Portfolio_projects/)
 
 ---
 
@@ -51,5 +51,5 @@ Clone the repository and open `index.html` in your browser:
 
 ```bash
 git clone git@github.com:SabrinaMillerSM/Portfolio_projects.git
-cd Portfolio_Apple_Human_Factors_Engineer
+cd Portfolio_projects
 open index.html   # On macOS
