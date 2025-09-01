@@ -1,0 +1,923 @@
+<!-- Portfolio -->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sabrina Miller - Human Factors Engineer Portfolio
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Main */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* Text Nav Bar */
+        .nav-link {
+            color: #475569;                /* base text color */
+            transition: color 0.3s ease;     /* smooth color transition */
+        }
+        .nav-link:hover {
+            color: #1d4ed8;                /* hover color */
+        }
+
+        /* Mobile Text Nav Bar */
+        .mobile-nav-link {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;       /* py-2 px-4 */
+            font-size: 0.875rem;        /* text-sm */
+            text-align: right;
+            color: #475569;           /* base text color */
+            background-color: transparent;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        .mobile-nav-link:hover {
+            color: #1d4ed8;           /* hover text */
+            background-color: #f3f4f6; 
+        }
+
+        /* Position of Section for Navigation */
+        .section-hero {
+            scroll-margin-top: 30px;
+        }
+        .section {
+            scroll-margin-top: 10px;
+        }
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem); /* ca. 28px – 40px */
+            font-weight: bold;
+            text-align: center;
+            color: #1e293b; 
+            margin-bottom: 2rem;
+        }
+
+        /* Scroll Animation */
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .scroll-animate.visible {
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+
+        /* ==========================
+        Global: Hero Section Style
+        ============================ */
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 4rem); /* scales between 32px and 64px */
+            font-weight: bold;
+            color: #1f2937; /* gray-800 */
+            margin-bottom: 1rem;
+        }
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 3vw, 1.5rem); /* 18px to 24px */
+            font-weight: 500;
+            color: #1d4ed8;
+            margin-bottom: 2rem;
+        }
+        .hero-text {
+            font-size: clamp(0.95rem, 1.8vw, 1.125rem); /* ~15px to 18px */
+            color: #334155; 
+            line-height: 1.7;
+            max-width: 48rem;               /* = Tailwind's max-w-3xl */
+            margin: 0 auto 2.5rem auto;     /* center + spacing (mb-10) */
+        }
+        .hero-button {
+            display: inline-block;
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            font-size: clamp(0.825rem, 1.5vw, 0.95rem); /* ~13px to 15px */
+            padding: clamp(0.4rem, 1vw, 0.6rem) clamp(1.2rem, 2.5vw, 1.6rem); /* py / px */
+            border-radius: 0.5rem; /* rounded-lg */
+            text-align: center;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .hero-button:hover {
+            background-color: #1e40af;
+        }
+
+
+        /* ==========================
+        Global: Skills Section Style
+        ============================ */
+        .skill-card {
+            background-color: #fefefe;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* shadow-md */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .skill-heading {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 600;
+            color: #1f2937;
+            text-align: center;
+            line-height: 1.3;
+            min-height: 3.5rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 0.5rem; 
+        }
+        .skill-list {
+            color: #64748b;
+            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            list-style: none; /* Bullets deaktivieren – wir machen eigene */
+        }
+        .skill-list li {
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 0.5rem;
+        }
+        .skill-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0.1em;
+            font-size: 1.1em;
+            color: #64748b;
+            line-height: 1;
+        }
+
+        /* ==========================
+        Global: Project Section Style
+        ============================ */
+        .project-section {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .project-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .project-heading {
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            color: #1F2937;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+        }
+        .project-subtitle {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .project-text {
+            color: #374151;
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            line-height: 1.6;
+        }
+        .project-list {
+            color: #374151;
+            font-size: clamp(0.75rem, 1vw, 0.9rem);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .project-list li {
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 0rem;
+        }
+        .project-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0.1em;
+            font-size: 1.1em;
+            color: #6B7280;
+            line-height: 1;
+        }
+        .project-button {
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: clamp(0.85rem, 1vw, 1rem);
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        /* === Slider === */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .slides-wrapper {
+            overflow: hidden;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+        }
+        .slide img {
+            max-height: 300px;
+            height: auto;
+            width: auto;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: #6B7280;
+            font-size: 1.5rem;
+            padding: 0.25rem 0.5rem;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .nav-button.left {
+            left: 0.5rem;
+        }
+        .nav-button.right {
+            right: 0.5rem;
+        }
+        .pagination-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.75rem;
+            gap: 0.5rem;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #A7F3D0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: #559E55;
+        }
+
+        #dm-fig{
+            background-image: url("images/DMS_Design.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;   
+            min-height: 1px;         
+        }
+        @media (min-width: 768px){
+            #dm-fig{
+                aspect-ratio: auto;   
+                height: auto;         
+                min-height: 1px;      
+                align-self: stretch;  
+            }
+        }
+
+
+
+        /* === Modal Styles === */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2.5rem;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.2s ease;
+        }
+        .modal-close:hover {
+            color: #e5e7eb; /* light gray */
+        }
+
+        /* === Chart === */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 150px;
+            max-height: 40vh;
+        }
+        .chart-caption {
+            display: block;
+            max-width: 320px;
+            margin: 0rem auto 0rem;
+            font-size: clamp(0.70rem, 1.0vw, 1rem);
+            line-height: 1.4;
+            text-align: center;
+            color: #6b7280; 
+        }
+
+    </style>
+
+</head>
+
+
+<body class="antialiased">
+    <!-- Header and Navigation Bar-->
+    <header class="bg-[#ffffff] backdrop-blur-lg shadow-sm fixed top-0 left-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- bottom left  'Sabrina Miller'-->
+            <a href="#" class="text-xl font-bold text-[#1f2937]">
+                Sabrina Miller
+            </a>
+            <!-- Container for menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="nav-link">
+                    About
+                </a>
+                <a href="#skills" class="nav-link">
+                    Skills
+                </a>
+                <a href="#projects" class="nav-link">
+                    Projects
+                </a>
+                <a href="#contact" class="nav-link">
+                    Contact
+                </a>
+            </div>
+            <!-- Mobile Menu-->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute right-6 top-16 bg-white shadow-lg rounded-md w-max py-2 z-40">
+            <a href="#about" class="mobile-nav-link">
+                About
+            </a>
+            <a href="#skills" class="mobile-nav-link">
+                Skills
+            </a>
+            <a href="#projects" class="mobile-nav-link">
+                Projects
+            </a>
+            <a href="#contact" class="mobile-nav-link">
+                Contact
+            </a>
+        </div>
+    </header>
+
+    <!-- Main content of Portfolio -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section id="about" class="section-hero scroll-animate container mx-auto px-6 py-20 md:py-28 text-center">
+            <h1 class="hero-title">
+                Sabrina Miller
+            </h1>
+            <p class="hero-subtitle">
+                Biomedical Engineer | Data Analyst | User Experience Enthusiast
+            </p>
+            <p class="hero-text">
+                <span class="block mb-2">Passionate about improving lives through innovative, human-centered design.</span>
+                <span class="block mb-2">My work builds on a strong foundation in Human Movement Analytics and hands-on research experience to bridge the gap between data, health, and human experience—driving meaningful insights and impactful solutions.</span>
+                <span class="block">I’m eager to apply my expertise in user-centered research, data analysis, and experimental design to projects that advance digital health and enhance everyday wellbeing.</span>
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <!-- Button for Resumes-->
+                <a href="Supporting_Files/ResumeCV/Resume_US_Sabrina_Miller.pdf" target="_blank" class="hero-button">
+                    View US Resume
+                </a>
+                <a href="Supporting_Files/ResumeCV/CV_Sabrina_Miller_2025_07_01.pdf" target="_blank" class="hero-button">
+                    View European CV
+                </a>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section scroll-animate bg-gray-50 min-h-screen flex items-center py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">
+                    My Skills
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="skill-card">
+                        <h4 class="skill-heading">
+                            Technical Proficiency
+                        </h4>
+                        <ul class="skill-list">
+                            <li><strong>Programming:</strong> MATLAB, Python, SQL, R, Java, C, JavaScript, HTML/CSS</li>
+                            <li><strong>Data Tools:</strong> Statistical Analysis, Data Merging, Cleaning & Preprocessing, Data Visualization, UI Development</li>
+                            <li><strong>Clinical Tools:</strong> Experiment Design, Motion Capture (Qualisys), Visual3D, Force Platforms, Accelerometers, IMUs, Exosuits</li>
+                            <li><strong>Machine Learning:</strong> Supervised ML, Classification, Regression</li>
+                            <li><strong>Software:</strong> Microsoft Office, GitHub, Online Database Systems</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="skill-heading">
+                            Human Factors & Research
+                        </h3>
+                        <ul class="skill-list">
+                            <li>User-Centered Design Principles & Methodologies</li>
+                            <li>Experimental Design & Protocol Development</li>
+                            <li>Qualitative & Quantitative Research Methods</li>
+                            <li>Usability Testing & Interface Evaluation</li>
+                            <li>Statistical Interpretation & Data-Driven Insights</li>
+                            <li>Human-Computer Interaction (HCI)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="skill-heading">
+                            Professional & Communication
+                        </h3>
+                        <ul class="skill-list">
+                            <li>Precise & Thorough Data Handling and Documentation</li>
+                            <li>Project Coordination & Timeline Management</li>
+                            <li>Strong Team Collaboration in Interdisciplinary Settings</li>
+                            <li>Fast Learner & Adaptable to New Technologies</li>
+                            <li>Proficient in Academic Writing & Presenting Research Findings</li>
+                            <li>Fluent in German and English</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section scroll-animate visible bg-gray-50 py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">
+                    Key Projects
+                </h2>
+
+                <div class="space-y-20">
+
+                    <!-- Project 1: Biomechanics App -->
+                    <div class="project-card bg-[#DFF7DF]">
+                        <div class="grid md:grid-cols-2 items-center">
+                            <div>
+                                <!--Project description-->
+                                <h3 class="project-heading">
+                                    Biomechanical Data Analysis Application
+                                </h3>
+                                <p class="project-text mb-6">
+                                    Designed a human-centered MATLAB application for analyzing biomechanical datasets from human studies. The tool supports statistical testing, advanced signal preprocessing, and interactive data visualization to enhance the analysis of human motion. Focused on maximizing data quality and usability, enabling safe and personalized insights in health and movement research.
+                                </p>
+                                <!--Key features list-->
+                                <h4 class="project-subtitle">
+                                    Key Features & Human Factors Relevance:
+                                </h4>
+                                <ul class="project-list mb-6">
+                                    <li><strong>Robust Outlier Detection:</strong> Implemented methods (Slope, IQR, Z-score, MAD) for data integrity in human studies.</li>
+                                    <li><strong>Advanced Signal Processing:</strong> Incorporated filters and smoothing techniques to refine raw physiological data.</li>
+                                    <li><strong>Temporal Normalization & Synchronization:</strong> Developed algorithms for precise alignment of time-series data (e.g., gait cycles).</li>
+                                    <li><strong>Integrated Statistical Analysis & Visualization:</strong> Enabled direct statistical testing and interactive plotting for actionable insights.</li>
+                                    <li><strong>User Interface (UI) Development:</strong> Designed a user-friendly MATLAB GUI for accessible and efficient research tools.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Image Slider -->
+                            <div class="slider-container items-center">
+                                <div class="slides-wrapper">
+                                    <div class="slides" id="project-slides"></div>
+                                </div>
+
+                                <button class="nav-button left" id="prev-slide">
+                                    &#8249;
+                                </button>
+                                <button class="nav-button right" id="next-slide">
+                                    &#8250;
+                                </button>
+
+                                <div class="pagination-dots" id="project-dots"></div>
+                            </div>
+                        </div>
+                    
+                        <!--Impact-->
+                        <h4 class="project-subtitle">
+                            Impact:
+                        </h4>
+                        <p class="project-text mb-6">
+                            Built a flexible analysis tool that streamlined the evaluation of human movement data and supported robust comparisons between walking conditions. The project demonstrated my ability to design clear, user-friendly analysis workflows that deliver actionable insights for research in biomechanics and wearable technologies.
+                        </p>
+
+                        <!--Button-->
+                        <div class="flex justify-center mt-4">
+                            <a href="Supporting_Files/PDFs/DAA_Report.pdf" target="_blank" class="project-button bg-[#66B566] hover:bg-[#559E55]">
+                                View Project Report (PDF)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Dark Mode Study -->
+                    <div class="project-card bg-[#FFF9E6]">
+                        <h3 class="project-heading">
+                            Dark Mode & Website Credibility Study
+                        </h3>
+                        <p class="project-text mb-6">
+                            As a key member of a four-person research team, I co-designed and conducted a rigorous lab study investigating the subtle influences of dark mode and ambient lighting on users' perceptions of website credibility. This project encompassed the entire research lifecycle, from initial conceptualization and experimental design to data collection, comprehensive analysis, and final evaluation, demonstrating my proficiency in both quantitative and qualitative research methodologies crucial for Human Factors Engineering.
+                        </p>
+                        
+                        <div class="md:grid md:grid-cols-4 md:gap-8 gap-6 mb-8 items-stretch">
+                            <!-- text -->
+                            <div class="md:col-span-3">
+                                <div class="">
+                                    <h4 class="project-subtitle">
+                                        Research Process & Human Factors Relevance:
+                                    </h4>
+                                    <ul class="project-list mb-6" style="margin-bottom:0;">
+                                        <li><strong>Conceptualization & Research Question:</strong> Explored impact of visual modes on user trust and perception.</li>
+                                        <li><strong>Experimental Design & Protocol:</strong> Developed rigorous study protocols for visual design and user perception, including light/dark mode and ambient lighting conditions.</li>
+                                        <li><strong>Data Collection & Methodology:</strong> Hands-on experience collecting diverse data (quantitative ratings, qualitative feedback) and applying advanced statistical/qualitative analysis.</li>
+                                        <li><strong>Usability Testing & Interface Evaluation:</strong> Focused on evaluating user experience, prioritizing cognitive and perceptual processes.</li>
+                                        <li><strong>Analysis & Scientific Communication:</strong> Translated complex findings into clear, influential recommendations for design and engineering teams.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- image -->
+                            <div class="md:col-span-1" style="display:flex; justify-content:center; align-items:center;">
+                                <img src="Supporting_Files/Images/DMS_Design.png"
+                                    alt="DMS Design Example"
+                                    style="max-width:100%; height:auto; margin-top: 1rem;" 
+                                    onclick="openModal(this.src)"
+                                    onmouseover="this.style.transform='scale(1.05)'"
+                                    onmouseout="this.style.transform='scale(1)'"
+                                />
+                            </div>
+
+                        </div>
+                        
+                        <!--Chart-->    
+                        <div class="grid grid-cols-1 md:grid-cols-3 items-stretch mb-0">
+                            <div class="md:col-span-2">
+                                 <h4 class="project-subtitle">
+                                    Key Findings:
+                                </h4>
+                                <p class="project-text mb-6">
+                                    The study provided valuable insights into how visual design choices impact user trust and credibility. While overall effects of dark mode were not significant, nuanced findings related to gender and technical background emerged. Specifically, males rated website credibility significantly higher than females (p=0.043), and participants with a technical background assessed credibility higher in light mode and bright environments. This highlights my ability to conduct rigorous user research and translate findings into practical UI/UX implications.
+                                </p>
+                            </div>
+                            <div class="col-span-1 justify-center max-h-full w-auto">
+                                <div class="chart-container mt-4">
+                                    <canvas id="credibilityChart"></canvas>
+                                </div>
+                                <p class="chart-caption">
+                                    Comparison of mean credibility ratings between male and female participants.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <!--Button-->
+                        <div class="flex justify-center mt-4">
+                            <a href="Supporting_Files/PDFs/Darkmode_study_Miller.pdf" target="_blank" class="project-button bg-[#F4B84D] hover:bg-[#D99F3E]">
+                                View Research Paper (PDF)
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- Project 3: Snakes and Ladders -->
+                    <div class="project-card bg-[#F9D9A9]">
+                        
+                        <div class="md:grid md:grid-cols-4 md:gap-8 gap-6 mb-0 items-stretch">
+                            <!-- text -->
+                            <div class="md:col-span-3">
+                                <h3 class="project-heading">
+                                    Interactive Snakes & Ladders Game
+                                </h3>
+                                <p class="project-text mb-2">
+                                    Designed and developed a digital version of the classic Snakes and Ladders board game using MATLAB GUI. The game includes dynamic board rendering, intuitive turn-based logic, and interactive player movement with immediate visual feedback.
+                                </p>
+                                <p class="project-text mb-6">
+                                    This project showcases my ability to create playful, user-centered digital experiences. With a strong focus on clarity, usability, and engagement, it reflects key principles of human-centered design and demonstrates how thoughtful interaction design can enhance enjoyment and accessibility in everyday applications.
+                                </p>
+                            </div>
+
+                            <!-- image -->
+                            <div class="md:col-span-1" style="display:flex; justify-content:center; align-items:center;">
+                                <img src="Supporting_Files/Images/SnL_start_app.png"
+                                    alt="Snakes and Ladders Main Menu"
+                                    style="max-width:100%; height:auto; margin-top: 1rem;" 
+                                    onclick="openModal(this.src)"
+                                    onmouseover="this.style.transform='scale(1.05)'"
+                                    onmouseout="this.style.transform='scale(1)'"
+                                />
+                            </div>
+
+                        </div>
+
+                        <div class="md:grid md:grid-cols-3 md:gap-8 gap-6 mb-8 items-stretch">
+                            <!-- text -->
+                            <div class="md:col-span-2">
+                                <div class="">
+                                    <h4 class="project-subtitle">
+                                        Human Factors & UX Highlights:
+                                    </h4>
+                                    <ul class="project-list mb-6" style="margin-bottom:0;">
+                                        <li><strong>User-Centric Interface Design:</strong> Crafted an attractive and intuitive MATLAB GUI, optimizing user cognitive load and engagement.</li>
+                                        <li><strong>Personalization & Engagement:</strong> Integrated features for player names and piece colors, enhancing personal connection.</li>
+                                        <li><strong>Progressive Challenge Design:</strong> Introduced mini-games with varied difficulty, showcasing understanding of user motivation.</li>
+                                        <li><strong>Accessibility & Adaptability:</strong> Ensured resizable application compatible across different PCs.</li>
+                                        <li><strong>Problem-Solving & Software Development:</strong> Translated complex game logic into a functional and enjoyable interactive application.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- image -->
+                            <div class="md:col-span-1" style="display:flex; justify-content:center; align-items:center;">
+                                <img src="Supporting_Files/Images/SnL_main_game.png"
+                                    alt="Snakes and Ladders Gameplay"
+                                    style="max-width:100%; height:auto; margin-top: 1rem;" 
+                                    onclick="openModal(this.src)"
+                                    onmouseover="this.style.transform='scale(1.05)'"
+                                    onmouseout="this.style.transform='scale(1)'"
+                                />
+                            </div>
+
+                        </div>
+
+                        <!--Button-->
+                        <div class="flex justify-center mt-4">
+                            <a href="Supporting_Files/PDFs/SnL_Report.pdf" target="_blank" class="project-button bg-[#9F610C] hover:bg-[#7F4D09]">
+                                View Project Report (PDF)
+                            </a>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section bg-gray-800 text-white py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-4">
+                    Let's Connect
+                </h2>
+                <p class="max-w-xl mx-auto text-gray-300 mb-8">
+                    I'm eager to discuss how my skills and passions can contribute to innovative, human-centered design. Feel free to reach out.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+                    <a href="mailto:sabrinamiller@gmx.de" class="text-lg hover:text-blue-300 transition">sabrinamiller@gmx.de</a>
+                    <div class="flex space-x-6">
+                        <a href="https://www.linkedin.com/in/sabrina-miller-sm" target="_blank" class="text-gray-300 hover:text-white transition">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="https://github.com/SabrinaMillerSM" target="_blank" class="text-gray-300 hover:text-white transition">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.111.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.08-.738.082-.724.082-.724 1.192.084 1.822 1.226 1.822 1.226 1.06 1.818 2.784 1.29 3.456.988.108-.767.418-1.29.762-1.587-2.645-.3-5.414-1.322-5.414-5.923 0-1.308.465-2.378 1.226-3.22-.122-.3-.53-1.523.116-3.176 0 0 1-.323 3.287 1.226.95-.264 1.956-.396 2.96-.396 1.004 0 2.01.132 2.96.396 2.288-1.549 3.287-1.226 3.287-1.226.646 1.653.238 2.876.116 3.176.76.842 1.226 1.912 1.226 3.22 0 4.61-2.77 5.61-5.424 5.91.428.368.816 1.096.816 2.21 0 1.597-.015 2.887-.015 3.286 0 .323.21.69.825.577C20.562 21.8 24 17.302 24 12c0-6.627-5.373-12-12-12z" clip-rule="evenodd"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-500 py-6 text-center text-sm">
+            <p>&copy; 2025 Sabrina Miller. All Rights Reserved.</p>
+        </footer>
+    </main>
+
+    <div id="imageModal" class="modal hidden" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Enlarged image">
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Scroll-In Animation Trigger with IntersectionObserver
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // only animate once
+                }
+            });
+        }, {
+            threshold: 0.2 // Adjust for earlier/later triggering
+        });
+        // Observe all elements with the scroll-animate class
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+            
+
+        // Slider Logic
+        const slideImages = [
+            'Supporting_Files/Images/DAA_Analysing_Data.png',
+            'Supporting_Files/Images/DAA_Settings.png',
+            'Supporting_Files/Images/DAA_Comparing_Parameters.png',
+            'Supporting_Files/Images/DAA_Results_Comparison.png',
+            'Supporting_Files/Images/DAA_Comparing_Subjects.png',
+            'Supporting_Files/Images/DAA_All_Subjects.png'
+        ];
+        const slideContainer = document.getElementById("project-slides");
+        const dotsContainer = document.getElementById("project-dots");
+        const prevBtn = document.getElementById("prev-slide");
+        const nextBtn = document.getElementById("next-slide");
+        let currentIndex = 0;
+        function renderSlides() {
+            slideContainer.innerHTML = "";
+            dotsContainer.innerHTML = "";
+
+            slideImages.forEach((src, index) => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.className = "slide";
+
+                img.onclick = () => openModal(img.src);
+                img.onmouseover = () => img.style.transform = 'scale(1.05)';
+                img.onmouseout = () => img.style.transform = 'scale(1)';
+                img.style.transition = "transform 0.3s ease";
+
+                slideContainer.appendChild(img);
+
+                const dot = document.createElement("div");
+                dot.className = "dot" + (index === 0 ? " active" : "");
+                dot.addEventListener("click", () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            updateSlide();
+        }
+        function updateSlide() {
+            const offset = -currentIndex * 100;
+            slideContainer.style.transform = `translateX(${offset}%)`;
+            [...dotsContainer.children].forEach((dot, idx) => {
+            dot.classList.toggle("active", idx === currentIndex);
+            });
+        }
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlide();
+        }
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + slideImages.length) % slideImages.length;
+            updateSlide();
+        });
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % slideImages.length;
+            updateSlide();
+        });
+        renderSlides();
+
+        // Image Modal
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.remove("hidden");
+        }
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.add("hidden");
+            modalImg.src = "";
+        }
+        const modal = document.getElementById('imageModal');
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Chart.js for Dark Mode Study
+        const ctx = document.getElementById('credibilityChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        label: 'Mean Credibility Rating',
+                        data: [4.547, 4.140],
+                        backgroundColor: [
+                            'rgba(196, 145, 2, 0.7)',
+                            'rgba(229, 200, 4, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(196, 145, 2, 1)',
+                            'rgba(229, 200, 4, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10, // oder 40 je nach Bedarf
+                            right: 30,
+                            top: 10
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 3.5,
+                            max: 5.0,
+                            title: {
+                                display: true,
+                                text: ['Credibility', '(7-point Likert Scale)']
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(3);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+
+    
+
+</body>
+
+
+
+
+</html>
